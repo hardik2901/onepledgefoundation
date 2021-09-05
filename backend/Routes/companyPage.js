@@ -1,16 +1,19 @@
 import express from 'express'
 import companyPage from '../Models/companyPage.js'
 import companyPageCard from '../Models/companyPageCards.js';
-import upload from '../Routes/uploadRoutes.js'
+import upload from '../Middleware/upload.js'
 import fs from 'fs'
+
+import { protect, admin, subAdmin } from '../Middleware/authentication.js';
 const router = express.Router();
 
 
 // /API/COMPANY
 // CREATE
 // @POST
+// @Admin
 
-router.post("/", upload.single('pptWithDetails'), async (req, res) => {
+router.post("/", protect, admin, upload.single('pptWithDetails'), async (req, res) => {
     const { userName } = req.body;
     const newCompanyPage = new companyPage(req.body);
     const doesCompanyExists = await companyPage.findOne({ userName });
@@ -41,8 +44,9 @@ router.post("/", upload.single('pptWithDetails'), async (req, res) => {
 // /API/COMPANY
 // UPDATE
 // @PUT
+// @ Admin
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", protect, subAdmin, async (req, res) => {
 
     try {
         const doesCompanyExists = await companyPage.findById(req.params.id)
@@ -66,31 +70,42 @@ router.put("/:id", async (req, res) => {
 // /API/COMPANY/:id
 // DELETE
 // @DELETE
+// @Admin
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", protect, admin, async (req, res) => {
     try {
-
         const doesCompanyExists = await companyPage.findById(req.params.id);
         //console.log(doesCompanyExists);
         if (doesCompanyExists) {
             try {
-                console.log('here');
-                const getAlltheCards = companyPageCard.findMany({ companyId: req.params.id })
-                console.log(getAlltheCards);
-                for (var i = 0; i < getAlltheCards.length; i++) {
-                    try {
-                        fs.unlinkSync(getAlltheCards[i].coverphoto);
-                    } catch (err) {
-                        res.json(err);
-                    }
-                }
-                try {
-                    fs.unlinkSync(companyPageCard.pptWithDetails);
-                } catch (err) {
-                    res.json(err);
-                }
+                // console.log(req.params.id);
 
-                companyPageCard.remove({ companyId: req.params.id })
+                companyPageCard.find({ companyId: req.params.id }, (err, data) => {
+                    if (err) {
+                        return console.error(err);
+                    }
+
+                    for (var cardImages of data) {
+                        fs.unlink(cardImages.coverPhoto, function (err) {
+                            if (err) console.log(err);
+                            else console.log('file deleted successfully');
+                        });
+                        cardImages.remove();
+                    }
+                })
+
+                fs.stat(doesCompanyExists.pptWithDetails, function (err, stats) {
+                    // console.log(stats) here we got all information of file in stats variable
+
+                    if (err) {
+                        return console.error(err);
+                    }
+
+                    fs.unlink(doesCompanyExists.pptWithDetails, function (err) {
+                        if (err) return console.log(err);
+                        console.log('file deleted successfully');
+                    });
+                });
 
                 doesCompanyExists.remove();
                 res.status(200).json({
@@ -116,8 +131,9 @@ router.delete("/:id", async (req, res) => {
 // /API/COMPANY
 // GET
 // @GET
+// @Admin
 
-router.get('/', async (req, res) => {
+router.get('/', protect, subAdmin, async (req, res) => {
     const companies = await companyPage.find({})
     res.json(companies)
 })
@@ -125,8 +141,9 @@ router.get('/', async (req, res) => {
 // /API/COMPANY
 // GET
 // @GET
+// @Protect
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', protect, async (req, res) => {
     const companies = await companyPage.findById(req.params.id)
     res.json(companies)
 })

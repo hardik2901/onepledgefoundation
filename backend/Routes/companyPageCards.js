@@ -1,7 +1,8 @@
 import express from 'express'
 import companyPage from '../Models/companyPage.js'
-import upload from '../Routes/uploadRoutes.js'
+import upload from '../Middleware/upload.js'
 import companyPageCard from '../Models/companyPageCards.js';
+import { protect, admin, subAdmin } from '../Middleware/authentication.js';
 import fs from 'fs'
 const router = express.Router();
 
@@ -10,7 +11,7 @@ const router = express.Router();
 // CREATE
 // @POST
 
-router.post("/:id", upload.single('coverPhoto'), async (req, res) => {
+router.post("/:id", protect, subAdmin, upload.single('coverPhoto'), async (req, res) => {
     const newCompanyPage = new companyPageCard(req.body);
     try {
         const savedCompanyPage = await newCompanyPage;
@@ -27,7 +28,7 @@ router.post("/:id", upload.single('coverPhoto'), async (req, res) => {
 // UPDATE
 // @PUT
 
-router.put("/:compid/:cardId", async (req, res) => {
+router.put("/:compid/:cardId", protect, subAdmin, async (req, res) => {
 
     try {
         const doesCardExists = await companyPageCard.findById(req.params.cardId)
@@ -51,7 +52,7 @@ router.put("/:compid/:cardId", async (req, res) => {
 // DELETE
 // @DELETE
 
-router.delete("/:compid/:cardId", async (req, res) => {
+router.delete("/:compid/:cardId", protect, subAdmin, async (req, res) => {
     try {
         const doesCardExists = await companyPageCard.findById(req.params.cardId);
         if (doesCardExists) {
@@ -88,16 +89,25 @@ router.delete("/:compid/:cardId", async (req, res) => {
 // GET
 // @GET
 
-router.get('/:id/cards', async (req, res) => {
-    const cards = await companyPage.findById(req.params.id)
-    res.json(cards)
+router.get('/:id/cards', protect, async (req, res) => {
+    try {
+        companyPageCard.find({ companyId: req.params.id }, (err, data) => {
+            if (err) {
+                return console.error(err);
+            }
+
+            res.send(data);
+        })
+    } catch (err) {
+        res.send(err);
+    }
 })
 
 // /API/COMPANY
 // GET
 // @GET
 
-router.get('/:compid/:cardId', async (req, res) => {
+router.get('/:compid/:cardId', protect, async (req, res) => {
     const card = await companyPageCard.findById(req.params.cardId)
     res.json(card)
 })

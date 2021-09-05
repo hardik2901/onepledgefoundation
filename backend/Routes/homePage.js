@@ -1,13 +1,13 @@
 import express from 'express'
 import homePage from '../Models/homePage.js'
 const router = express.Router();
-
+import { protect, admin } from '../Middleware/authentication.js';
 
 // /API/HOMEPAGE/CARDS
 // CREATE
 // @POST
 
-router.post("/", async (req, res) => {
+router.post("/", protect, admin, async (req, res) => {
     const { title } = req.body;
     const newCard = new homePage(req.body);
     const doesCardExists = await homePage.findOne({ title: title });
@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
 // UPDATE
 // @PUT
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", protect, admin, async (req, res) => {
 
     try {
         const doesCardExists = await homePage.findById(req.params.id);
@@ -56,7 +56,7 @@ router.put("/:id", async (req, res) => {
 // DELETE
 // @DELETE
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", protect, admin, async (req, res) => {
     try {
         const doesCardExists = await homePage.findById(req.params.id);
         console.log(doesCardExists);

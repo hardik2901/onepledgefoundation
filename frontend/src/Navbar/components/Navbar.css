@@ -1,3 +1,11 @@
+@font-face {
+	font-family: 'onePledgeFont';
+	src: 
+		local('onePledgeFont'),
+		local('onePledgeFont'),
+		url('/Users/newuser/Desktop/onePledgeFoundation/frontend/src/Navbar/components/onePledgeFont.otf') 
+		format('opentype');
+}
 .navbar {
   background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
   height: 80px;
@@ -14,6 +22,7 @@
   cursor: pointer;
   text-decoration: none;
   font-size: 2rem;
+  font-family: onePledgeFont;
 }
 .navbar-logo-onepledge{
   height: 50px;

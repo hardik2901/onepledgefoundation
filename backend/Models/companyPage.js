@@ -27,6 +27,14 @@ const companyPageSchema = new mongoose.Schema({
     pptWithDetails: {
         type: String,
         default: "",
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false,
+    },
+    isSubAdmin: {
+        type: Boolean,
+        default: false,
     }
 }, { timestamps: true }
 );

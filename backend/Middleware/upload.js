@@ -26,8 +26,5 @@ const upload = multer({
     storage: storage
 })
 
-// router.post('/', upload.array('upload', 10), async (req, res) => {
-//     res.send(req.files);
-// });
 
 export default upload
