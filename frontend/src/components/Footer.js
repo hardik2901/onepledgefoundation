@@ -1,8 +1,7 @@
 import React from 'react';
-import './Footer.css';
+import '../cssFiles/Footer.css';
 import { Button } from './Button';
 import { Link } from 'react-router-dom';
-import logo from '../Navbar/components/logo-navBar.png'
 
 function Footer() {
   return (
@@ -65,7 +64,7 @@ function Footer() {
           <div className='footer-logo'>
             <Link to='/' className='social-logo'>
               One Pledge Foundation
-              <img src={logo} className="navbar-logo-onepledge"></img>
+              <img src='/images//onePledgeFoundationLogo.png' className="navbar-logo-onepledge" alt="one pleade foundation logo"></img>
             </Link>
           </div>
           <small className='website-rights'>One Pledge Foundation © 2021</small>

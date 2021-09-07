@@ -1,7 +1,7 @@
 import React from 'react';
-import '../App.css';
+import '../index.css'
 import { Button } from './Button';
-import './HeroSection.css';
+import '../cssFiles/HeroSection.css';
 
 function HeroSection() {
   return (
@@ -11,10 +11,11 @@ function HeroSection() {
       <h2 style={{ color: "white" }}>Regenerating Life in Seas and Soils</h2>
       <div className='hero-btns'>
         <Button
-          Linkto="become-a-voluteer"
+          Linkto="becomeavolunteer"
           className='btns'
           buttonStyle='btn--primary'
           buttonSize='btn--large'
+          takeWhere='BecomeVolunteer'
         >
           Become a Volunteer
           <i className='far fa-play-circle' />

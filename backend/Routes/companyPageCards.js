@@ -93,13 +93,15 @@ router.get('/:id/cards', protect, async (req, res) => {
     try {
         companyPageCard.find({ companyId: req.params.id }, (err, data) => {
             if (err) {
-                return console.error(err);
+                res.status(404);
+                throw new Error('Unable to load the cards from the backend')
             }
 
             res.send(data);
         })
     } catch (err) {
-        res.send(err);
+        res.status(404);
+        throw new Error('Unable to load the cards from the backend')
     }
 })
 

@@ -1,5 +1,6 @@
 import express from 'express'
 import homePage from '../Models/homePage.js'
+import asyncHandler from 'express-async-handler'
 const router = express.Router();
 import { protect, admin } from '../Middleware/authentication.js';
 
@@ -7,7 +8,7 @@ import { protect, admin } from '../Middleware/authentication.js';
 // CREATE
 // @POST
 
-router.post("/", protect, admin, async (req, res) => {
+router.post("/", protect, admin, asyncHandler(async (req, res) => {
     const { title } = req.body;
     const newCard = new homePage(req.body);
     const doesCardExists = await homePage.findOne({ title: title });
@@ -24,13 +25,13 @@ router.post("/", protect, admin, async (req, res) => {
         })
     }
 
-});
+}));
 
 // /API/HOMEPAGE/CARDS
 // UPDATE
 // @PUT
 
-router.put("/:id", protect, admin, async (req, res) => {
+router.put("/:id", protect, admin, asyncHandler(async (req, res) => {
 
     try {
         const doesCardExists = await homePage.findById(req.params.id);
@@ -50,13 +51,13 @@ router.put("/:id", protect, admin, async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-});
+}));
 
 // /API/HOMEPAGE/CARDS
 // DELETE
 // @DELETE
 
-router.delete("/:id", protect, admin, async (req, res) => {
+router.delete("/:id", protect, admin, asyncHandler(async (req, res) => {
     try {
         const doesCardExists = await homePage.findById(req.params.id);
         console.log(doesCardExists);
@@ -81,25 +82,25 @@ router.delete("/:id", protect, admin, async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-});
+}));
 
 // /API/HOMEPAGE/CARDS
 // GET ALL
 // @GET
 
-router.get('/', async (req, res) => {
+router.get('/', asyncHandler(async (req, res) => {
     const cards = await homePage.find({})
     res.json(cards)
-})
+}))
 
 // /API/HOMEPAGE/CARDS
 // GET ALL
 // @GET
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', asyncHandler(async (req, res) => {
     const card = await homePage.findById(req.params.id)
     res.json(card)
-})
+}))
 
 
 

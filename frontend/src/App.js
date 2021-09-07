@@ -1,24 +1,29 @@
 import React from 'react';
-import Navbar from './Navbar/components/Navbar.js';
-import './App.css';
-import Home from './components/pages/Home';
+import './index.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Services from './components/pages/Services';
-import Products from './components/pages/Products';
-import SignUp from './components/pages/SignUp';
-import BecomeVolunteer from './components/pages/BecomeVolunteer.js';
+import HomeScreen from './screens/HomeScreen';
+import AboutUsScreen from './screens/AboutUsScreen';
+import WhatWeDoScreen from './screens/WhatWeDoScreen';
+import ContactUsScreen from './screens/ContactUsScreen';
+import BecomeVolunteerScreen from './screens/BecomeVolunteerScreen';
+import LoginScreen from './screens/LoginScreen';
+import AdminPanelScreen from './screens/AdminPanelScreen';
+import CompanyPageScreen from './screens/CompanyPageScreen';
+
 
 function App() {
   return (
     <>
       <Router>
-        <Navbar />
         <Switch>
-          <Route path='/' exact component={Home} />
-          <Route path='/services' component={Services} />
-          <Route path='/products' component={Products} />
-          <Route path='/sign-up' component={SignUp} />
-          <Route path='/BecomeVolunteer' component={BecomeVolunteer} />
+          <Route path='/' exact component={HomeScreen} />
+          <Route path='/aboutus' component={AboutUsScreen} />
+          <Route path='/whatwedo' component={WhatWeDoScreen} />
+          <Route path='/contactus' component={ContactUsScreen} />
+          <Route path='/becomevolunteer' component={BecomeVolunteerScreen} />
+          <Route path='/login' component={LoginScreen} />
+          <Route path='/admin' component={AdminPanelScreen} />
+          <Route path='/:id' component={CompanyPageScreen} />
         </Switch>
       </Router>
     </>
