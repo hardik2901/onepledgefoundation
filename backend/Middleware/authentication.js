@@ -11,14 +11,12 @@ const protect = async (req, res, next) => {
         try {
             token = req.headers.authorization.split(' ')[1]
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
-
-            console.log('here')
             req.companyPage = await companyPage.findById(decoded.id).select('-password')
             next()
         } catch (error) {
             res.status(401)
             res.json({
-                "message": "Not authorized Forbidden"
+                "message": "Not authorized, token failed"
             })
         }
     }
@@ -26,7 +24,7 @@ const protect = async (req, res, next) => {
     if (!token) {
         res.status(401)
         res.json({
-            "message": "Not authorized as admin"
+            "message": "Not authorized, token failed"
         })
     }
 }
@@ -38,11 +36,14 @@ const admin = (req, res, next) => {
         } else {
             res.status(401)
             res.json({
-                "message": "Not authorized as admin"
+                "message": "Not authorized, token failed"
             })
         }
     } catch (err) {
-        res.status(err);
+        res.status(401)
+        res.json({
+            "message": "Not authorized, token failed"
+        })
     }
 
 }
@@ -54,11 +55,14 @@ const subAdmin = (req, res, next) => {
         } else {
             res.status(401)
             res.json({
-                "message": "Not authorized. Forbidden ..!"
+                "message": "Not authorized, token failed"
             })
         }
     } catch (err) {
-        res.status(err);
+        res.status(401)
+        res.json({
+            "message": "Not authorized, token failed"
+        })
     }
 
 }

@@ -6,7 +6,7 @@ const router = express.Router()
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'upload')
+        cb(null, 'frontend/public/images')
     },
     fileFilter(req, file, cb) {
         var ext = path.extname(file.originalname);
@@ -23,7 +23,11 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({
-    storage: storage
+    storage: storage,
+    onError: function (err) {
+        res.status(err)
+        throw new Error('Error While uploading the file')
+    }
 })
 
 

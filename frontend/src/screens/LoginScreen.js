@@ -30,7 +30,6 @@ const LoginScreen = ({ history }) => {
 
   const submitForm = (e) => {
     e.preventDefault();
-
     dispatch(login(userName, password));
   }
 
