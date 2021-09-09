@@ -11,9 +11,12 @@ const getAllCompanyData = (id) => async (dispatch, getState) => {
         } = getState()
         console.log(userInfo.token)
         const token = `Bearer ${userInfo.token}`
-        console.log(token);
 
-        axios.get(`/api/company/${id}`)
+        const config = {
+            headers: { Authorization: token }
+        };
+
+        axios.get(`/api/company/${id}`, config)
             .then(function (res) {
                 dispatch({
                     type: COMPANY_PAGE_DATA_SUCCESS,

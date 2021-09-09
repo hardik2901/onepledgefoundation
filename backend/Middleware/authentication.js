@@ -9,8 +9,13 @@ const protect = async (req, res, next) => {
         req.headers.authorization.startsWith('Bearer')
     ) {
         try {
+            console.log('here')
             token = req.headers.authorization.split(' ')[1]
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
+            console.log(req.params.id)
+            if (decoded.id !== req.params.id) {
+                throw new Error
+            }
             req.companyPage = await companyPage.findById(decoded.id).select('-password')
             next()
         } catch (error) {

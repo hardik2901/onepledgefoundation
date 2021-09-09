@@ -14,7 +14,7 @@ import { protect, admin, subAdmin } from '../Middleware/authentication.js';
 const router = express.Router();
 
 router.route('/').get(protect, admin, getAllCompanies).post(protect, admin, upload.single('pptWithDetails'), createCompany)
-router.route('/:id').put(protect, admin, updateCompany).delete(protect, admin, deleteCompany).get(getCompany)
+router.route('/:id').put(protect, admin, updateCompany).delete(protect, admin, deleteCompany).get(protect, getCompany)
 
 
 export default router;

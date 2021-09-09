@@ -9,6 +9,8 @@ import BecomeVolunteerScreen from './screens/BecomeVolunteerScreen';
 import LoginScreen from './screens/LoginScreen';
 import AdminPanelScreen from './screens/AdminPanelScreen';
 import CompanyPageScreen from './screens/CompanyPageScreen';
+import AdminPageHomepageEditScreen from './screens/AdminPageHomepageEditScreen';
+import AdminPageCompaniesEditScreen from './screens/AdminPageCompaniesEditScreen';
 
 
 function App() {
@@ -22,8 +24,11 @@ function App() {
           <Route path='/contactus' component={ContactUsScreen} />
           <Route path='/becomevolunteer' component={BecomeVolunteerScreen} />
           <Route path='/login' component={LoginScreen} />
-          <Route path='/admin' component={AdminPanelScreen} />
+          <Route path='/admin' exact component={AdminPanelScreen} />
+          <Route path='/homepage' exact component={AdminPageHomepageEditScreen} />
+          <Route path='/companies' exact component={AdminPageCompaniesEditScreen} />
           <Route path='/:id' component={CompanyPageScreen} />
+
         </Switch>
       </Router>
     </>
