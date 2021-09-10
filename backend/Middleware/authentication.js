@@ -12,8 +12,9 @@ const protect = async (req, res, next) => {
             console.log('here')
             token = req.headers.authorization.split(' ')[1]
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
-            console.log(req.params.id)
-            if (decoded.id !== req.params.id) {
+            const companyCheck = await companyPage.findById(decoded.id)
+            console.log(companyCheck)
+            if (decoded.id !== req.params.id && !(companyCheck.isAdmin || companyCheck.isSubAdmin)) {
                 throw new Error
             }
             req.companyPage = await companyPage.findById(decoded.id).select('-password')
@@ -35,6 +36,7 @@ const protect = async (req, res, next) => {
 }
 
 const admin = (req, res, next) => {
+    console.log('here')
     try {
         if (req.companyPage && req.companyPage.isAdmin) {
             next()
@@ -54,6 +56,7 @@ const admin = (req, res, next) => {
 }
 
 const subAdmin = (req, res, next) => {
+    console.log('here')
     try {
         if (req.companyPage && (req.companyPage.isSubAdmin || req.companyPage.isAdmin)) {
             next()

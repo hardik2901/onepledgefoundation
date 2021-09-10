@@ -1,13 +1,15 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
 import {
     ProSidebar,
     Menu,
     MenuItem,
     SidebarHeader,
     SidebarContent,
-    SidebarFooter
+    SidebarFooter,
+    SubMenu
 } from "react-pro-sidebar";
 
 import 'react-pro-sidebar/dist/css/styles.css';
@@ -40,22 +42,20 @@ export default function AdminPanelHeader({ history }) {
     const logoutButtonHandler = () => {
         dispatch(logout());
     }
-    const onClickHomepageHandler = () => {
-        history.push('homepage')
-    }
-
-    const onClickCompaniesPageHandler = () => {
-        history.push('companies')
-    }
 
     return (
         <ProSidebar style={headerStyle}>
             <SidebarHeader style={logoStyle}>one plede foundation</SidebarHeader>
             <SidebarContent>
                 <Menu iconShape="circle">
-                    <MenuItem onClick={onClickHomepageHandler}>Homepage</MenuItem>
-                    <MenuItem onClick={onClickCompaniesPageHandler}>Companies</MenuItem>
+                    <MenuItem ><Link to="/homepage">Homepage</Link></MenuItem>
+                    <MenuItem><Link to="companies">Companies</Link></MenuItem>
+                    <SubMenu title="Add New">
+                        <MenuItem><Link to="addnew">Homepage Card</Link></MenuItem>
+                        <MenuItem>Company </MenuItem>
+                    </SubMenu>
                 </Menu>
+
             </SidebarContent>
             <SidebarFooter style={logoStyle}>
                 <div className="d-grid gap-2">

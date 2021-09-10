@@ -1,11 +1,14 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { homepageCardReducer } from './reducers/homepageCardReducer'
+import { homepageCardDeleteReducer, homepageCardEditReducer, homepageCardReducer, singleHomepagecardReducer } from './reducers/homepageCardReducer'
 import { userReducers } from './reducers/userReducers'
 import { companyReducer } from './reducers/companyReducer'
 const reducer = combineReducers({
     homepageCards: homepageCardReducer,
+    homepageCard: singleHomepagecardReducer,
+    homepageCardDelete: homepageCardDeleteReducer,
+    homepageCardEdit: homepageCardEditReducer,
     userLogin: userReducers,
     companyPageData: companyReducer,
 

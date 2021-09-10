@@ -8,9 +8,11 @@ import asyncHandler from 'express-async-handler'
 const createHomepageCard = asyncHandler(async (req, res) => {
     const { title } = req.body;
     const newCard = new homePage(req.body);
+    console.log(newCard);
     const doesCardExists = await homePage.findOne({ title: title });
     if (!doesCardExists) {
         try {
+            newCard.coverPhoto = req.file.path.split('public')[1];
             const savedCard = await newCard.save();
             res.status(200).json(savedCard);
         } catch (err) {
@@ -31,7 +33,11 @@ const createHomepageCard = asyncHandler(async (req, res) => {
 const updateHomePageCard = asyncHandler(async (req, res) => {
 
     try {
+
         const doesCardExists = await homePage.findById(req.params.id);
+        console.log('req body')
+        console.log(req.body)
+
         if (doesCardExists) {
             doesCardExists.title = req.body.title || doesCardExists.title;
             doesCardExists.discription = req.body.navBarTitle || doesCardExists.discription;
@@ -59,6 +65,7 @@ const deleteHomepageCard = asyncHandler(async (req, res) => {
         console.log(doesCardExists);
         if (doesCardExists) {
             try {
+                console.log('here');
                 doesCardExists.remove();
                 res.status(200).json({
                     "message": "Card Deleted ...!"

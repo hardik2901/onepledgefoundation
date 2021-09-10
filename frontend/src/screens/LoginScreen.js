@@ -21,7 +21,7 @@ const LoginScreen = ({ history }) => {
       if ((userInfo.isAdmin || userInfo.isSubAdmin))
         history.push('/admin')
       else
-        history.push(`/${userInfo._id}`)
+        history.push(`/users/${userInfo._id}`)
     } else {
       setUserName("")
       setPassword("")
