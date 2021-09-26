@@ -60,7 +60,7 @@ export const homepageCardAddReducer = (state = {}, action) => {
         case HOMEPAGE_CARD_ADD_REQUEST:
             return { loading: true }
         case HOMEPAGE_CARD_ADD_SUCCESS:
-            return { loading: false, success: true, product: action.payload }
+            return { loading: false, success: true, card: action.payload }
         case HOMEPAGE_CARD_ADD_FAIL:
             return { loading: false, error: action.payload }
         default:
@@ -73,7 +73,7 @@ export const homepageCardEditReducer = (state = {}, action) => {
         case HOMEPAGE_CARD_EDIT_REQUEST:
             return { loading: true }
         case HOMEPAGE_CARD_EDIT_SUCCESS:
-            return { loading: false, success: true, product: action.payload }
+            return { loading: false, success: true, card: action.payload }
         case HOMEPAGE_CARD_EDIT_FAIL:
             return { loading: false, error: action.payload }
         default:

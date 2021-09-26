@@ -13,6 +13,7 @@ import AdminPageHomepageEditScreen from './screens/AdminPageHomepageEditScreen';
 import AdminPageCompaniesEditScreen from './screens/AdminPageCompaniesEditScreen';
 import AdminPageHomepageAddCardScreen from './screens/AdminPageHomepageAddCardScreen';
 import AdminPageHomepageCardEditScreen from './screens/AdminPageHomepageCardEditScreen';
+import PlayingWithDraftjs from './screens/PlayingWithDraftjs';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
     <>
       <Router>
         <Switch>
+          <Route path='/draftjs' exact component={PlayingWithDraftjs} />
           <Route path='/' exact component={HomeScreen} />
           <Route path='/aboutus' exact component={AboutUsScreen} />
           <Route path='/whatwedo' exact component={WhatWeDoScreen} />
@@ -32,6 +34,7 @@ function App() {
           <Route path='/companies' exact component={AdminPageCompaniesEditScreen} />
           <Route path='/addnew' exact component={AdminPageHomepageAddCardScreen} />
           <Route path='/users/:id' exact component={CompanyPageScreen} />
+
 
 
         </Switch>

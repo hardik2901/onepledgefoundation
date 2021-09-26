@@ -79,10 +79,10 @@ const AdminPageHomepageCardEditScreen = ({ match, history }) => {
     return (
         <div>
             <Row>
-                <Col md={3} xl={2} lg={3}>
+                <Col md={3} xl={3} lg={4}>
                     <AdminPanelHeader history={history} />
                 </Col>
-                <Col md={9} xl={10} lg={9}>
+                <Col md={9} xl={9} lg={8}>
                     {loading ? <Loader /> : error ? <Message variant="danger" childer={error} /> :
                         <>
                             {success && <Link to="/homepage"><Message variant="success" children={`Update Successful go back to home page`} /> </Link>}

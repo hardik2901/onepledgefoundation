@@ -6,23 +6,9 @@ import asyncHandler from 'express-async-handler'
 // @POST
 
 const createHomepageCard = asyncHandler(async (req, res) => {
-    const { title } = req.body;
-    const newCard = new homePage(req.body);
-    console.log(newCard);
-    const doesCardExists = await homePage.findOne({ title: title });
-    if (!doesCardExists) {
-        try {
-            newCard.coverPhoto = req.file.path.split('public')[1];
-            const savedCard = await newCard.save();
-            res.status(200).json(savedCard);
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    } else {
-        res.status(401)
-        res.json({ "message": "Card with same title alredy exists'" })
-    }
-
+    const newCard = new homePage;
+    const savedCard = await newCard.save();
+    res.json(savedCard);
 });
 
 
@@ -35,12 +21,11 @@ const updateHomePageCard = asyncHandler(async (req, res) => {
     try {
 
         const doesCardExists = await homePage.findById(req.params.id);
-        console.log('req body')
         console.log(req.body)
 
         if (doesCardExists) {
             doesCardExists.title = req.body.title || doesCardExists.title;
-            doesCardExists.discription = req.body.navBarTitle || doesCardExists.discription;
+            doesCardExists.discription = req.body.discription || doesCardExists.discription;
             doesCardExists.coverPhoto = req.body.coverPhoto || doesCardExists.coverPhoto;
             doesCardExists.Location = req.body.Location || doesCardExists.Location;
             doesCardExists.save();

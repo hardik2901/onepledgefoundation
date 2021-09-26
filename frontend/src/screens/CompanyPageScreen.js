@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { logout } from '../actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
-import getAllCompanyData from '../actions/companyActions'
+import { getAllCompanyData } from '../actions/companyActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { useParams } from 'react-router-dom'

@@ -1,9 +1,9 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { homepageCardDeleteReducer, homepageCardEditReducer, homepageCardReducer, singleHomepagecardReducer } from './reducers/homepageCardReducer'
+import { homepageCardDeleteReducer, homepageCardEditReducer, homepageCardReducer, singleHomepagecardReducer, homepageCardAddReducer } from './reducers/homepageCardReducer'
 import { userReducers } from './reducers/userReducers'
-import { companyReducer } from './reducers/companyReducer'
+import { allcompaniesReducer, companyReducer, deleteCompanyReducer } from './reducers/companyReducer'
 const reducer = combineReducers({
     homepageCards: homepageCardReducer,
     homepageCard: singleHomepagecardReducer,
@@ -11,6 +11,10 @@ const reducer = combineReducers({
     homepageCardEdit: homepageCardEditReducer,
     userLogin: userReducers,
     companyPageData: companyReducer,
+    companiesData: allcompaniesReducer,
+    newHomepageCardId: homepageCardAddReducer,
+    companyDelete: deleteCompanyReducer
+
 
 })
 

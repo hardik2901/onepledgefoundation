@@ -4,10 +4,15 @@
   "proxy": "http://localhost:5000",
   "private": true,
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^29.2.0",
+    "@ckeditor/ckeditor5-editor-balloon": "^29.2.0",
+    "@ckeditor/ckeditor5-react": "^3.0.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.4",
+    "babel-polyfill": "^6.26.0",
+    "dompurify": "^2.3.3",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",
     "react-dom": "^17.0.2",
@@ -44,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@ckeditor/ckeditor5-alignment": "^29.2.0"
   }
 }

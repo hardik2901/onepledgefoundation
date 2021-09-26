@@ -10,7 +10,10 @@ import {
     HOMEPAGE_CARD_FAIL,
     HOMEPAGE_CARD_EDIT_REQUEST,
     HOMEPAGE_CARD_EDIT_SUCCESS,
-    HOMEPAGE_CARD_EDIT_FAIL
+    HOMEPAGE_CARD_EDIT_FAIL,
+    HOMEPAGE_CARD_ADD_SUCCESS,
+    HOMEPAGE_CARD_ADD_REQUEST,
+    HOMEPAGE_CARD_ADD_FAIL
 } from "../constants/homepageCardConstants"
 import axios from 'axios'
 import { logout } from "./userActions"
@@ -95,8 +98,45 @@ export const deleteHomePageCard = (id) => async (dispatch, getState) => {
     }
 }
 
-export const addNewHomepageCard = () => {
+export const addNewHomepageCard = () => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: HOMEPAGE_CARD_ADD_REQUEST
+        })
+        const {
+            userLogin: { userInfo },
+        } = getState()
 
+        const config = {
+            headers: {
+                "Content-Type": 'application/json',
+                "Authorization": `Bearer ${userInfo.token}`,
+            }
+        }
+
+        axios.post(`/api/homepage/cards`, config)
+            .then(function (res) {
+                dispatch({
+                    type: HOMEPAGE_CARD_ADD_SUCCESS,
+                    payload: res.data,
+                })
+            })
+            .catch(function (error) {
+                const message = error.response && error.response.data.message ? error.response.data.message : error.message
+                if (message === 'Not authorized, token failed')
+                    dispatch(logout());
+                dispatch({
+                    type: HOMEPAGE_CARD_ADD_FAIL,
+                    payload: message,
+                })
+            });
+    } catch (error) {
+        dispatch({
+            type: HOMEPAGE_CARD_ADD_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+
+        })
+    }
 }
 
 export const editHomepageCard = (card, id) => async (dispatch, getState) => {
@@ -133,7 +173,7 @@ export const editHomepageCard = (card, id) => async (dispatch, getState) => {
             });
     } catch (error) {
         dispatch({
-            type: HOMEPAGE_CARDS_DELETE_FAIL,
+            type: HOMEPAGE_CARD_EDIT_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message : error.message,
 
         })

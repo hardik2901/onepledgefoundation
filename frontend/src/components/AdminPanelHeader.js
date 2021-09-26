@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import {
     ProSidebar,
@@ -14,6 +14,7 @@ import {
 
 import 'react-pro-sidebar/dist/css/styles.css';
 import { logout } from "../actions/userActions";
+import { addNewHomepageCard } from "../actions/homepageCardActions";
 
 
 export default function AdminPanelHeader({ history }) {
@@ -39,8 +40,21 @@ export default function AdminPanelHeader({ history }) {
         whiteSpace: "noWrap"
     };
 
+    const newHomepageCardId = useSelector(state => state.newHomepageCardId)
+    const { loading, error, card } = newHomepageCardId
+
+    useEffect(() => {
+        if (newHomepageCardId.card) {
+            window.location.reload();
+        }
+    }, [card, history, newHomepageCardId])
+
     const logoutButtonHandler = () => {
         dispatch(logout());
+    }
+
+    const newCardHandler = () => {
+        dispatch(addNewHomepageCard());
     }
 
     return (
@@ -51,7 +65,7 @@ export default function AdminPanelHeader({ history }) {
                     <MenuItem ><Link to="/homepage">Homepage</Link></MenuItem>
                     <MenuItem><Link to="companies">Companies</Link></MenuItem>
                     <SubMenu title="Add New">
-                        <MenuItem><Link to="addnew">Homepage Card</Link></MenuItem>
+                        <MenuItem onClick={newCardHandler}> Homepage Card </MenuItem>
                         <MenuItem>Company </MenuItem>
                     </SubMenu>
                 </Menu>
