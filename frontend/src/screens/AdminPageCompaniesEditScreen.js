@@ -6,7 +6,7 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { Button, Col, Row, Table } from 'react-bootstrap'
 import AdminPanelFooter from '../components/AdminPanelFooter'
-import { deleteCompany, getCompaniesData } from '../actions/companyActions'
+import { deleteCompany, getCompaniesData, getEditorsList } from '../actions/companyActions'
 
 const AdminPageCompaniesEditScreen = ({ history }) => {
     const userLogin = useSelector((state) => state.userLogin)
@@ -38,7 +38,8 @@ const AdminPageCompaniesEditScreen = ({ history }) => {
     }
 
     const editButtonHandler = (id) => {
-
+        dispatch(getEditorsList(id));
+        history.push(`/companies/${id}/edit`)
     }
 
     const deleteButtonHandler = (id) => {

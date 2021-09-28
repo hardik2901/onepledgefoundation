@@ -16,11 +16,10 @@ const companyPageSchema = new mongoose.Schema({
         type: String,
         default: "",
     },
-    ckeditor1: [
+    ckeditor: [
         {
             title: String,
-            discriptop: String,
-            default: "",
+            rawHtml: String
         }
     ],
     pptWithDetails: {

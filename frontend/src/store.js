@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { homepageCardDeleteReducer, homepageCardEditReducer, homepageCardReducer, singleHomepagecardReducer, homepageCardAddReducer } from './reducers/homepageCardReducer'
 import { userReducers } from './reducers/userReducers'
-import { allcompaniesReducer, companyReducer, deleteCompanyReducer } from './reducers/companyReducer'
+import { allcompaniesReducer, companyEditorsDeleteReducer, companyEditorsListReducer, companyReducer, deleteCompanyReducer } from './reducers/companyReducer'
 const reducer = combineReducers({
     homepageCards: homepageCardReducer,
     homepageCard: singleHomepagecardReducer,
@@ -13,7 +13,9 @@ const reducer = combineReducers({
     companyPageData: companyReducer,
     companiesData: allcompaniesReducer,
     newHomepageCardId: homepageCardAddReducer,
-    companyDelete: deleteCompanyReducer
+    companyDelete: deleteCompanyReducer,
+    companyEditorList: companyEditorsListReducer,
+    companyEditorDelete: companyEditorsDeleteReducer
 
 
 })

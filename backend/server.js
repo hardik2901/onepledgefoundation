@@ -3,7 +3,6 @@ import dotenv from 'dotenv'
 import connectDB from './config/db.js'
 import companyPage from './Routes/companyPage.js'
 import homePage from './Routes/homePage.js'
-import companyPageCards from './Routes/companyPageCards.js'
 import loginPage from './Routes/loginPage.js'
 import upload from './Middleware/upload.js'
 const app = express();
@@ -17,7 +16,6 @@ app.get('/', (req, res) => {
 })
 app.use('/api/company', companyPage);
 app.use('/api/homepage/cards', homePage);
-app.use('/api/company', companyPageCards);
 app.use('/api/login', loginPage);
 app.post('/api/upload', upload.single('coverPhoto'), async (req, res) => {
     console.log(req.file.path)

@@ -63,7 +63,7 @@ export default function AdminPanelHeader({ history }) {
             <SidebarContent>
                 <Menu iconShape="circle">
                     <MenuItem ><Link to="/homepage">Homepage</Link></MenuItem>
-                    <MenuItem><Link to="companies">Companies</Link></MenuItem>
+                    <MenuItem><Link to="/companies">Companies</Link></MenuItem>
                     <SubMenu title="Add New">
                         <MenuItem onClick={newCardHandler}> Homepage Card </MenuItem>
                         <MenuItem>Company </MenuItem>

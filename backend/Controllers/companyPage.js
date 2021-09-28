@@ -1,6 +1,5 @@
 import express from 'express'
 import companyPage from '../Models/companyPage.js'
-import companyPageCard from '../Models/companyPageCards.js';
 import asyncHandler from 'express-async-handler'
 import fs from 'fs'
 
@@ -65,10 +64,7 @@ const updateCompany = asyncHandler(async (req, res) => {
         const doesCompanyExists = await companyPage.findById(req.params.id)
         if (doesCompanyExists) {
             doesCompanyExists.password = req.body.password || doesCompanyExists.userName,
-                doesCompanyExists.navBarTitle = req.body.navBarTitle || doesCompanyExists.navBarTitle,
-                doesCompanyExists.ckeditor1 = req.body.ckeditor1 || doesCompanyExists.ckeditor1,
-                doesCompanyExists.ckeditor2 = req.body.ckeditor2 || doesCompanyExists.ckeditor2,
-                doesCompanyExists.pptWithDetails = req.body.pptWithDetails.split('public')[1] || doesCompanyExists.pptWithDetails
+                doesCompanyExists.navBarTitle = req.body.navBarTitle || doesCompanyExists.navBarTitle
         } else {
             res.status(404)
             throw new Error('Company not found')
@@ -92,34 +88,6 @@ const deleteCompany = asyncHandler(async (req, res) => {
         if (doesCompanyExists) {
             try {
                 // console.log(req.params.id);
-
-                companyPageCard.find({ companyId: req.params.id }, (err, data) => {
-                    if (err) {
-                        return console.error(err);
-                    }
-
-                    for (var cardImages of data) {
-                        fs.unlink(cardImages.coverPhoto, function (err) {
-                            if (err) console.log(err);
-                            else console.log('file deleted successfully');
-                        });
-                        cardImages.remove();
-                    }
-                })
-
-                fs.stat(doesCompanyExists.pptWithDetails, function (err, stats) {
-                    // console.log(stats) here we got all information of file in stats variable
-
-                    if (err) {
-                        return console.error(err);
-                    }
-
-                    fs.unlink(doesCompanyExists.pptWithDetails, function (err) {
-                        if (err) return console.log(err);
-                        console.log('file deleted successfully');
-                    });
-                });
-
                 doesCompanyExists.remove();
                 res.status(200).json({
                     "message": "Company Deleted ...!"
@@ -156,10 +124,104 @@ const getCompany = asyncHandler(async (req, res) => {
 
 })
 
+// /API/COMPANY/EDITOR/:ID
+// ADD EDITOR
+// POST
+// @admin
+
+const addEditor = asyncHandler(async (req, res) => {
+    const company = await companyPage.findById(req.params.id)
+    if (company) {
+        try {
+            res.json(await companyPage.updateOne({ _id: req.params.id }, { $push: { ckeditor: req.body } }))
+        } catch (err) {
+            res.status(404)
+            res.json({ "message": "Error in adding new field" })
+        }
+
+    } else {
+        res.status(404)
+        res.json({ "message": "No such company found" })
+    }
+})
+
+// /API/COMPANY/EDITOR/:ID
+// ADD EDITOR
+// PUT
+// @admin
+
+const updateEditor = asyncHandler(async (req, res) => {
+    const company = await companyPage.findById(req.params.id)
+    if (company) {
+        try {
+            res.json(await companyPage.findOneAndUpdate({ _id: req.params.id, "ckeditor.title": req.body.title }, { $set: { 'ckeditor.$.rawHtml': req.body.rawHtml } }))
+        } catch (err) {
+            res.status(404)
+            res.json({ "message": "Error in adding new field" })
+        }
+
+    } else {
+        res.status(404)
+        res.json({ "message": "No such company found" })
+    }
+})
+
+// /API/COMPANY/EDITOR/:ID
+// DELETE EDITOR
+// DELETE
+// @admin
+
+const deleteEditor = asyncHandler(async (req, res) => {
+    const company = await companyPage.findById(req.params.id)
+    if (company) {
+        try {
+            console.log('herererererer')
+            console.log(req.body);
+            res.json(await companyPage.updateOne({ _id: req.params.id }, { $pull: { ckeditor: { title: req.body.title } } }))
+        } catch (err) {
+            res.status(404)
+            res.json({ "message": "Error in Deleting the field" })
+        }
+
+    } else {
+        res.status(404)
+        res.json({ "message": "No such Editor found" })
+    }
+})
+
+// /API/COMPANY/EDITOR/:ID
+// GET EDITOR
+// GET
+// @admin
+
+const getEditor = asyncHandler(async (req, res) => {
+    const company = await companyPage.findById(req.params.id)
+    if (company) {
+        try {
+            if (req.body.title)
+                res.json(await companyPage.find({ _id: req.params.id }, { ckeditor: { $elemMatch: { title: req.body.title } } }))
+            else {
+                res.json(company.ckeditor)
+            }
+        } catch (err) {
+            res.status(404)
+            res.json({ "message": "Error in Deleting the field" })
+        }
+
+    } else {
+        res.status(404)
+        res.json({ "message": "No such Editor found" })
+    }
+})
+
 export {
     getAllCompanies,
     createCompany,
     updateCompany,
     deleteCompany,
-    getCompany
+    getCompany,
+    updateEditor,
+    deleteEditor,
+    getEditor,
+    addEditor
 }
