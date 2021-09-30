@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import renderHTML from 'react-render-html';
 import { Editor } from "@tinymce/tinymce-react";
 import { Row, Col } from 'react-bootstrap'
@@ -7,10 +7,6 @@ import { Row, Col } from 'react-bootstrap'
 
 function PlayingWithDraftjs() {
     const [html, setHtml] = useState("<h1>Hello world</h1>")
-    const [bool, setBool] = useState(false)
-    useEffect(() => {
-        setBool(true);
-    }, [])
     const onChangeHandler = (e) => {
         if (e.target.getContent({ format: 'raw' }))
             setHtml(e.target.getContent({ format: 'raw' }))

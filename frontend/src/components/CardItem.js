@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card, Container } from 'react-bootstrap';
 import Flippy, { FrontSide, BackSide } from 'react-flippy';
 
 

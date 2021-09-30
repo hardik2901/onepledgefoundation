@@ -6,7 +6,7 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { Button, Col, Row, Table } from 'react-bootstrap'
 import AdminPanelFooter from '../components/AdminPanelFooter'
-import { deleteCompany, getCompaniesData, getEditorsList } from '../actions/companyActions'
+import { deleteCompany, getCompaniesData } from '../actions/companyActions'
 
 const AdminPageCompaniesEditScreen = ({ history }) => {
     const userLogin = useSelector((state) => state.userLogin)
@@ -23,6 +23,7 @@ const AdminPageCompaniesEditScreen = ({ history }) => {
     useEffect(() => {
         dispatch(getCompaniesData())
         if (successDelete) {
+            window.location.reload();
         }
     }, [successDelete, dispatch])
 

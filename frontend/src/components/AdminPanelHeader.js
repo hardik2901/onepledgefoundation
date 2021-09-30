@@ -42,7 +42,7 @@ export default function AdminPanelHeader({ history }) {
     };
 
     const newHomepageCardId = useSelector(state => state.newHomepageCardId)
-    const { loading, error, card } = newHomepageCardId
+    const { card } = newHomepageCardId
 
     useEffect(() => {
         if (newHomepageCardId.card) {

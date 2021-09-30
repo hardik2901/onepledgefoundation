@@ -43,7 +43,7 @@ const CompanyPageScreen = ({ history }) => {
                             <Navbar.Collapse className='justify-content-end' id='basic-navbar-nav'>
                                 <Nav className='justify-content-end'>
                                     {editors.map((editor) => (
-                                        <Nav.Link href={`#${editor.title}`}>{editor.title}</Nav.Link>
+                                        <Nav.Link key={editor._id} href={`#${editor.title}`}>{editor.title}</Nav.Link>
                                     ))}
                                     <NavDropdown title="JMS" id="basic-nav-dropdown">
                                         <div className="d-grid gap-2">
@@ -63,7 +63,7 @@ const CompanyPageScreen = ({ history }) => {
                         <Col lg={8} xl={8}>
                             <Container display="flex" justifycontent="center" alignitems="center">
                                 {editors.map((editor) => (
-                                    <>
+                                    <div key={editor._id} >
                                         <a name={`${editor.title}`}> </a>
                                         <div className="d-grid gap-2" style={{ padding: "10px" }}>
                                             <Button variant="primary" size="lg">
@@ -72,7 +72,7 @@ const CompanyPageScreen = ({ history }) => {
                                         </div>
 
                                         <div dangerouslySetInnerHTML={{ __html: editor.rawHtml }} />
-                                    </>
+                                    </div>
                                 ))
                                 }
                             </Container>

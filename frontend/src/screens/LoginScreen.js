@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
-import FormContainer from '../components/FormContainer'
 import { useSelector, useDispatch } from 'react-redux'
 import { login } from '../actions/userActions'
 import Loader from '../components/Loader'

@@ -54,7 +54,6 @@ const AdminPageHomepageCardEditScreen = ({ match, history }) => {
             }
 
             const { data } = await axios.post('/api/upload', formData, config)
-            console.log(data);
             setCoverPhoto(data)
             setUploading(false)
         } catch (error) {

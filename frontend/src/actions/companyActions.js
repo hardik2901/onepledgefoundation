@@ -28,7 +28,7 @@ export const getAllCompanyData = (id) => async (dispatch, getState) => {
         const {
             userLogin: { userInfo },
         } = getState()
-        console.log(userInfo.token)
+
         const token = `Bearer ${userInfo.token}`
 
         const config = {
@@ -71,7 +71,7 @@ export const getCompaniesData = () => async (dispatch, getState) => {
         const {
             userLogin: { userInfo },
         } = getState()
-        console.log(userInfo.token)
+
         const token = `Bearer ${userInfo.token}`
 
         const config = {
@@ -114,7 +114,7 @@ export const deleteCompany = (id) => async (dispatch, getState) => {
         const {
             userLogin: { userInfo },
         } = getState()
-        console.log(userInfo.token)
+
         const token = `Bearer ${userInfo.token}`
 
         const config = {
@@ -152,13 +152,13 @@ export const deleteCompany = (id) => async (dispatch, getState) => {
 
 export const getEditorsList = (id) => async (dispatch, getState) => {
     try {
-        console.log('here');
+
         dispatch({ type: COMPANY_EDITOR_LIST_REQUEST })
 
         const {
             userLogin: { userInfo },
         } = getState()
-        console.log(userInfo.token)
+
         const token = `Bearer ${userInfo.token}`
 
         const config = {
@@ -201,7 +201,7 @@ export const deleteEditor = (compId, title) => async (dispatch, getState) => {
         const {
             userLogin: { userInfo },
         } = getState()
-        console.log(userInfo.token)
+
         const token = `Bearer ${userInfo.token}`
 
         const config = {
@@ -241,13 +241,11 @@ export const deleteEditor = (compId, title) => async (dispatch, getState) => {
 
 export const getEditorData = (compId, title) => async (dispatch, getState) => {
     try {
-        console.log('here');
         dispatch({ type: COMPANY_EDITOR_DATA_REQUEST })
 
         const {
             userLogin: { userInfo },
         } = getState()
-        console.log(userInfo.token)
         const token = `Bearer ${userInfo.token}`
 
         const config = {
@@ -262,7 +260,6 @@ export const getEditorData = (compId, title) => async (dispatch, getState) => {
                     type: COMPANY_EDITOR_DATA_SUCCESS,
                     payload: res.data,
                 })
-                localStorage.setItem('companyEditorData', JSON.stringify(res.data));
 
             })
             .catch(function (error) {

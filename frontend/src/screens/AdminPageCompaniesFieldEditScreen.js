@@ -5,7 +5,7 @@ import { logout } from '../actions/userActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { Row, Col, Table, Button } from 'react-bootstrap'
-import { deleteEditor, getEditorData, getEditorsList } from '../actions/companyActions'
+import { deleteEditor, getEditorsList } from '../actions/companyActions'
 import { useLocation, Link } from 'react-router-dom'
 
 const AdminPageCompaniesFieldEditScreen = ({ history }) => {
@@ -34,18 +34,15 @@ const AdminPageCompaniesFieldEditScreen = ({ history }) => {
     const location = useLocation().pathname
     const compId = location.split('/')[2];
     useEffect(() => {
-        if (!editors)
-            dispatch(getEditorsList(compId))
-    }, [status, editors, compId, dispatch])
+        dispatch(getEditorsList(compId))
+    }, [status, compId, dispatch])
 
     const deleteButtonHandler = (title) => {
-        dispatch(deleteEditor(compId, title));
-    }
+        if (window.confirm('Are you sure? ...You want to delete the Field !!')) {
+            dispatch(deleteEditor(compId, title));
+        }
 
-    const editButtonHandler = (title) => {
-        dispatch(getEditorData(compId, title))
     }
-
 
     return (
         <>
@@ -70,7 +67,7 @@ const AdminPageCompaniesFieldEditScreen = ({ history }) => {
                                     <tr key={editor._id}>
                                         <td style={{ textAlign: "center" }}>{editor._id}</td>
                                         <td style={{ textAlign: "center" }}>{editor.title}</td>
-                                        <td style={{ textAlign: "center" }}><Link to={`/companies/${compId}/${editor.title}/edit`}><Button variant="info" onClick={() => editButtonHandler(editor.title)}> Edit</Button></Link>{` `}<Button variant="danger" onClick={() => deleteButtonHandler(editor.title)}>Delete</Button></td>
+                                        <td style={{ textAlign: "center" }}><Link to={`/companies/${compId}/${editor.title}/edit`}><Button variant="info" > Edit</Button></Link>{` `}<Button variant="danger" onClick={() => deleteButtonHandler(editor.title)}>Delete</Button></td>
                                     </tr>
                                 ))
                                 }

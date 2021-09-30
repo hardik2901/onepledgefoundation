@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout } from '../actions/userActions'
-import { Row, Col } from 'react-bootstrap'
+import { Row } from 'react-bootstrap'
 import AdminPanelHeader from '../components/AdminPanelHeader'
 import { Editor } from "@tinymce/tinymce-react";
 import { getEditorData } from '../actions/companyActions'
@@ -15,23 +15,18 @@ const AdminPageEditorEditScreen = ({ history }) => {
     const { userInfo } = userLogin
 
     const companyEditorData = useSelector((state) => state.companyEditorData)
-    const { loading = true, error, data } = companyEditorData;
+    const { loading, error, data } = companyEditorData;
 
-    const [html, setHtml] = useState("")
+    const [html, setHtml] = useState("<h1>Start writing in the Editor/h1>")
 
     const dispatch = useDispatch()
     const location = useLocation().pathname;
     const compId = location.split('/')[2];
-    const title = location.split('/')[4];
+    const title = location.split('/')[3];
 
     useEffect(() => {
-        if (!companyEditorData) {
-            dispatch(getEditorData(compId, title))
-        } else if (data) {
-            console.log(data);
-            setHtml(data.rawHtml)
-        }
-    }, [companyEditorData, data, dispatch, compId, title])
+        dispatch(getEditorData(compId, title))
+    }, [dispatch, compId, title])
 
     if (!userInfo) {
         history.push('/login')
@@ -63,7 +58,7 @@ const AdminPageEditorEditScreen = ({ history }) => {
                             id="hardik"
                             autoresize_on_init={true}
                             onChange={onChangeHandler}
-                            initialValue={html}
+                            initialValue={data ? data.rawHtml : html}
                             init={{
                                 height: "80vh",
                                 width: "82%",

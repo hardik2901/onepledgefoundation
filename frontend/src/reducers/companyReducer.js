@@ -87,8 +87,9 @@ export const companyEditorsDeleteReducer = (state = {}, action) => {
 export const companyEditorDataReducer = (state = {}, action) => {
     switch (action.type) {
         case COMPANY_EDITOR_DATA_REQUEST:
-            return { loading: true, payload: [] }
+            return { loading: true, data: null }
         case COMPANY_EDITOR_DATA_SUCCESS:
+            localStorage.setItem('companyEditorData', JSON.stringify(action.payload));
             return { loading: false, data: action.payload }
         case COMPANY_EDITOR_DATA_FAIL:
             return { loading: false, error: action.payload }
