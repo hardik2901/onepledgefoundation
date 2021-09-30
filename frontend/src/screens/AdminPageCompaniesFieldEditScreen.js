@@ -36,9 +36,6 @@ const AdminPageCompaniesFieldEditScreen = ({ history }) => {
     useEffect(() => {
         if (!editors)
             dispatch(getEditorsList(compId))
-        if (status) {
-            window.location.reload();
-        }
     }, [status, editors, compId, dispatch])
 
     const deleteButtonHandler = (title) => {

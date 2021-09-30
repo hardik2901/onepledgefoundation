@@ -17,13 +17,8 @@ import {
     companyReducer,
     deleteCompanyReducer
 } from './reducers/companyReducer'
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
 
-const persistConfig = {
-    key: "root",
-    storage,
-}
+
 
 const reducer = combineReducers({
     homepageCards: homepageCardReducer,
@@ -40,18 +35,18 @@ const reducer = combineReducers({
     companyEditorData: companyEditorDataReducer
 })
 
-const persistedReducer = persistReducer(persistConfig, reducer)
 
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
-
+const companyEditorDataFromStorage = localStorage.getItem('companyEditorData') ? JSON.parse(localStorage.getItem('companyEditorData')) : null
 
 const initialState = {
     userLogin: { userInfo: userInfoFromStorage },
+    companyEditorData: { data: companyEditorDataFromStorage }
 }
 
 const middleware = [thunk]
 
-export const store = createStore(persistedReducer, initialState, composeWithDevTools(applyMiddleware(...middleware)))
-export const persistor = persistStore(store)
+export const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middleware)))
+
 

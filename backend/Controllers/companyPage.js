@@ -223,8 +223,11 @@ const getSingleEditor = asyncHandler(async (req, res) => {
     const company = await companyPage.findById(req.params.id)
     if (company) {
         try {
+            console.log(req.params.id)
+            console.log(req.params.title)
             const temp = await companyPage.findOne({ _id: req.params.id }, { ckeditor: { $elemMatch: { title: req.params.title } } })
             res.json(temp.ckeditor[0]);
+            console.log(temp);
 
         } catch (err) {
             res.status(404)

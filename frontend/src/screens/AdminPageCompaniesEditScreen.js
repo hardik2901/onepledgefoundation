@@ -23,7 +23,6 @@ const AdminPageCompaniesEditScreen = ({ history }) => {
     useEffect(() => {
         dispatch(getCompaniesData())
         if (successDelete) {
-            window.location.reload()
         }
     }, [successDelete, dispatch])
 

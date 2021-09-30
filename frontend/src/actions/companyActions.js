@@ -258,11 +258,12 @@ export const getEditorData = (compId, title) => async (dispatch, getState) => {
 
         axios.get(`/api/company/editor/${compId}/${title}`, config)
             .then(function (res) {
-                console.log(res.data);
                 dispatch({
                     type: COMPANY_EDITOR_DATA_SUCCESS,
                     payload: res.data,
                 })
+                localStorage.setItem('companyEditorData', JSON.stringify(res.data));
+
             })
             .catch(function (error) {
                 const message = error.response && error.response.data.message ? error.response.data.message : error.message

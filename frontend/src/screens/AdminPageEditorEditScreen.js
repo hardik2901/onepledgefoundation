@@ -15,7 +15,7 @@ const AdminPageEditorEditScreen = ({ history }) => {
     const { userInfo } = userLogin
 
     const companyEditorData = useSelector((state) => state.companyEditorData)
-    const { loading, error, data } = companyEditorData;
+    const { loading = true, error, data } = companyEditorData;
 
     const [html, setHtml] = useState("")
 
@@ -25,9 +25,10 @@ const AdminPageEditorEditScreen = ({ history }) => {
     const title = location.split('/')[4];
 
     useEffect(() => {
-        if (!companyEditorData || !data) {
+        if (!companyEditorData) {
             dispatch(getEditorData(compId, title))
-        } else {
+        } else if (data) {
+            console.log(data);
             setHtml(data.rawHtml)
         }
     }, [companyEditorData, data, dispatch, compId, title])
