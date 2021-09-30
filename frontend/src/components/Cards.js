@@ -22,13 +22,30 @@ function Cards() {
     <div className='cards'>
       <h1 className="latest-update-above-card">RECENT UPDATES</h1>
       {loading ? <Loader /> : error ? <Message variant="danger" children={error} /> :
-        <Row>
-          {cards.map((carding) => (
-            <Col key={carding._id} sm={12} md={6} lg={4} xl={3}>
-              <CardItem card={carding} />
-            </Col>
-          ))}
-        </Row>
+        <>
+          <Row>
+            <div className="row">
+              <div className="row__posters">
+                {cards.map((carding) => (
+                  <img
+                    key={carding.title}
+                    className="row__poster row__posterLarge"
+                    src={`${carding.coverPhoto}`}
+                    alt={carding.title}
+                  />
+                ))}
+              </div>
+            </div>
+          </Row>
+          <Row>
+            {cards.map((carding) => (
+              <Col key={carding._id} sm={12} md={6} lg={4} xl={3}>
+                <CardItem card={carding} />
+              </Col>
+            ))}
+          </Row>
+        </>
+
       }
 
     </div>

@@ -27,7 +27,8 @@ export default function AdminPanelHeader({ history }) {
         letterSpacing: "1px",
         overflow: "hidden",
         textOverflow: "ellipsis",
-        whiteSpace: "noWrap",
+        whiteSpace: "noWrap"
+
     };
 
     const logoStyle = {
@@ -58,7 +59,7 @@ export default function AdminPanelHeader({ history }) {
     }
 
     return (
-        <ProSidebar style={headerStyle}>
+        <ProSidebar style={headerStyle} width={"230px"}>
             <SidebarHeader style={logoStyle}>one plede foundation</SidebarHeader>
             <SidebarContent>
                 <Menu iconShape="circle">

@@ -38,7 +38,6 @@ const AdminPageCompaniesEditScreen = ({ history }) => {
     }
 
     const editButtonHandler = (id) => {
-        dispatch(getEditorsList(id));
         history.push(`/companies/${id}/edit`)
     }
 

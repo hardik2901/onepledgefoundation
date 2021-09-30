@@ -5,10 +5,10 @@ import { logout } from '../actions/userActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { Row, Col, Table, Button } from 'react-bootstrap'
-import { deleteEditor, getEditorsList } from '../actions/companyActions'
-import { useLocation } from 'react-router-dom'
+import { deleteEditor, getEditorData, getEditorsList } from '../actions/companyActions'
+import { useLocation, Link } from 'react-router-dom'
 
-const AdminPageCompaniesFieldEditScreen = (history, props) => {
+const AdminPageCompaniesFieldEditScreen = ({ history }) => {
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
@@ -41,12 +41,12 @@ const AdminPageCompaniesFieldEditScreen = (history, props) => {
         }
     }, [status, editors, compId, dispatch])
 
-    const editButtonHandler = (id) => {
-
-    }
-
     const deleteButtonHandler = (title) => {
         dispatch(deleteEditor(compId, title));
+    }
+
+    const editButtonHandler = (title) => {
+        dispatch(getEditorData(compId, title))
     }
 
 
@@ -73,7 +73,7 @@ const AdminPageCompaniesFieldEditScreen = (history, props) => {
                                     <tr key={editor._id}>
                                         <td style={{ textAlign: "center" }}>{editor._id}</td>
                                         <td style={{ textAlign: "center" }}>{editor.title}</td>
-                                        <td style={{ textAlign: "center" }}><Button variant="info" onClick={() => editButtonHandler(editor.title)}>Edit</Button>{` `}<Button variant="danger" onClick={() => deleteButtonHandler(editor.title)}>Delete</Button></td>
+                                        <td style={{ textAlign: "center" }}><Link to={`/companies/${compId}/${editor.title}/edit`}><Button variant="info" onClick={() => editButtonHandler(editor.title)}> Edit</Button></Link>{` `}<Button variant="danger" onClick={() => deleteButtonHandler(editor.title)}>Delete</Button></td>
                                     </tr>
                                 ))
                                 }

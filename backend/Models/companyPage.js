@@ -22,10 +22,6 @@ const companyPageSchema = new mongoose.Schema({
             rawHtml: String
         }
     ],
-    pptWithDetails: {
-        type: String,
-        default: "",
-    },
     isAdmin: {
         type: Boolean,
         default: false,

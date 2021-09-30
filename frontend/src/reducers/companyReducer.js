@@ -5,6 +5,9 @@ import {
     COMPANY_DELETE_FAIL,
     COMPANY_DELETE_REQUEST,
     COMPANY_DELETE_SUCCESS,
+    COMPANY_EDITOR_DATA_FAIL,
+    COMPANY_EDITOR_DATA_REQUEST,
+    COMPANY_EDITOR_DATA_SUCCESS,
     COMPANY_EDITOR_DELETE_FAIL,
     COMPANY_EDITOR_DELETE_REQUEST,
     COMPANY_EDITOR_DELETE_SUCCESS,
@@ -80,3 +83,17 @@ export const companyEditorsDeleteReducer = (state = {}, action) => {
             return state
     }
 }
+
+export const companyEditorDataReducer = (state = {}, action) => {
+    switch (action.type) {
+        case COMPANY_EDITOR_DATA_REQUEST:
+            return { loading: true, payload: [] }
+        case COMPANY_EDITOR_DATA_SUCCESS:
+            return { loading: false, data: action.payload }
+        case COMPANY_EDITOR_DATA_FAIL:
+            return { loading: false, error: action.payload }
+        default:
+            return state
+    }
+}
+

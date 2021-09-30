@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import { logout } from '../actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllCompanyData } from '../actions/companyActions'
+import { getEditorsList } from '../actions/companyActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { useParams } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Col, Navbar, Nav, Container, Button, NavDropdown } from 'react-bootstrap'
+import { Row, Col, Navbar, Nav, Container, Button, NavDropdown } from 'react-bootstrap'
 
 const CompanyPageScreen = ({ history }) => {
     const dispatch = useDispatch()
@@ -18,16 +18,13 @@ const CompanyPageScreen = ({ history }) => {
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
 
-    const companyPageData = useSelector((state) => state.companyPageData);
-    const { error, loading = true, companyData } = companyPageData;
-
+    const companyEditorList = useSelector((state) => state.companyEditorList);
+    const { error, loading = true, editors } = companyEditorList;
     useEffect(() => {
-        if (userInfo) {
-            if (!companyData) {
-                dispatch(getAllCompanyData(id));
-            }
+        if (!editors) {
+            dispatch(getEditorsList(id))
         }
-    }, [dispatch, userInfo, companyData, history, id])
+    }, [dispatch, userInfo, editors, history, id])
 
     return (
         <>
@@ -37,8 +34,7 @@ const CompanyPageScreen = ({ history }) => {
                         <Container>
                             <LinkContainer to='/'>
                                 <Nav.Link>
-                                    <Navbar.Brand>{companyData.navBarTitle}</Navbar.Brand>
-                                    in assciation with <Navbar.Brand>one pledge foundation </Navbar.Brand>
+                                    <Navbar.Brand>One Pledge Foundation</Navbar.Brand>
                                     <img src="/images/onePledgeFoundationLogo.png" className="navbar-logo-onepledge" alt="logo"></img>
                                 </Nav.Link>
 
@@ -46,7 +42,10 @@ const CompanyPageScreen = ({ history }) => {
                             <Navbar.Toggle aria-controls='basic-navbar-nav' />
                             <Navbar.Collapse className='justify-content-end' id='basic-navbar-nav'>
                                 <Nav className='justify-content-end'>
-                                    <NavDropdown title={companyData.userName} id="basic-nav-dropdown">
+                                    {editors.map((editor) => (
+                                        <Nav.Link href={`#${editor.title}`}>{editor.title}</Nav.Link>
+                                    ))}
+                                    <NavDropdown title="JMS" id="basic-nav-dropdown">
                                         <div className="d-grid gap-2">
                                             <Button onClick={buttonHandler} variant="info" size="lg">
                                                 Logout
@@ -57,23 +56,30 @@ const CompanyPageScreen = ({ history }) => {
                             </Navbar.Collapse>
                         </Container>
                     </Navbar>
-                    <Col></Col>
-                    <Col>
-                        {/*  */}
-                        <Container display="flex" justifycontent="center" alignitems="center">
-                            <h1>{companyData.navBarTitle}</h1>
-                            <h1>{companyData.pptWithDetails}</h1>
-                            <object data={companyData.pptWithDetails} type="application/pptx">
-                                <iframe src={companyData.pptWithDetails} frameborder="0" width="100%" height="900" allowFullScreen="true" mozAllowFullscreen="true" webkitAllowFullScreen="true"
-                                    marginHeight="0"
-                                    marginWidth="0"
-                                    title="Become A Voluteer"
-                                >
-                                    Loading…</iframe>;
-                            </object>
-                        </Container>
-                    </Col>
-                    <Col></Col>
+                    {/*  */}
+                    <Row>
+                        <Col lg={2} xl={2}>
+                        </Col>
+                        <Col lg={8} xl={8}>
+                            <Container display="flex" justifycontent="center" alignitems="center">
+                                {editors.map((editor) => (
+                                    <>
+                                        <a name={`${editor.title}`}> </a>
+                                        <div className="d-grid gap-2" style={{ padding: "10px" }}>
+                                            <Button variant="primary" size="lg">
+                                                {editor.title}
+                                            </Button>
+                                        </div>
+
+                                        <div dangerouslySetInnerHTML={{ __html: editor.rawHtml }} />
+                                    </>
+                                ))
+                                }
+                            </Container>
+                        </Col >
+                        <Col lg={2} xl={2}>
+                        </Col>
+                    </Row>
                 </>
 
 

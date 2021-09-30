@@ -214,6 +214,29 @@ const getEditor = asyncHandler(async (req, res) => {
     }
 })
 
+// /API/COMPANY/EDITOR/:ID/:TITLE
+// GET EDITOR
+// GET
+// @admin
+
+const getSingleEditor = asyncHandler(async (req, res) => {
+    const company = await companyPage.findById(req.params.id)
+    if (company) {
+        try {
+            const temp = await companyPage.findOne({ _id: req.params.id }, { ckeditor: { $elemMatch: { title: req.params.title } } })
+            res.json(temp.ckeditor[0]);
+
+        } catch (err) {
+            res.status(404)
+            res.json({ "message": "Error in Deleting the field" })
+        }
+
+    } else {
+        res.status(404)
+        res.json({ "message": "No such Editor found" })
+    }
+})
+
 export {
     getAllCompanies,
     createCompany,
@@ -223,5 +246,6 @@ export {
     updateEditor,
     deleteEditor,
     getEditor,
+    getSingleEditor,
     addEditor
 }

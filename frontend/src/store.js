@@ -1,9 +1,30 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { homepageCardDeleteReducer, homepageCardEditReducer, homepageCardReducer, singleHomepagecardReducer, homepageCardAddReducer } from './reducers/homepageCardReducer'
+import {
+    homepageCardDeleteReducer,
+    homepageCardEditReducer,
+    homepageCardReducer,
+    singleHomepagecardReducer,
+    homepageCardAddReducer
+} from './reducers/homepageCardReducer'
 import { userReducers } from './reducers/userReducers'
-import { allcompaniesReducer, companyEditorsDeleteReducer, companyEditorsListReducer, companyReducer, deleteCompanyReducer } from './reducers/companyReducer'
+import {
+    allcompaniesReducer,
+    companyEditorDataReducer,
+    companyEditorsDeleteReducer,
+    companyEditorsListReducer,
+    companyReducer,
+    deleteCompanyReducer
+} from './reducers/companyReducer'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+
+const persistConfig = {
+    key: "root",
+    storage,
+}
+
 const reducer = combineReducers({
     homepageCards: homepageCardReducer,
     homepageCard: singleHomepagecardReducer,
@@ -15,10 +36,11 @@ const reducer = combineReducers({
     newHomepageCardId: homepageCardAddReducer,
     companyDelete: deleteCompanyReducer,
     companyEditorList: companyEditorsListReducer,
-    companyEditorDelete: companyEditorsDeleteReducer
-
-
+    companyEditorDelete: companyEditorsDeleteReducer,
+    companyEditorData: companyEditorDataReducer
 })
+
+const persistedReducer = persistReducer(persistConfig, reducer)
 
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
@@ -30,6 +52,6 @@ const initialState = {
 
 const middleware = [thunk]
 
-const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middleware)))
+export const store = createStore(persistedReducer, initialState, composeWithDevTools(applyMiddleware(...middleware)))
+export const persistor = persistStore(store)
 
-export default store
